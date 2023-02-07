@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Oswald } from '@next/font/google'
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { useFormik, FormikProvider, Form } from 'formik'
 import * as Yup from 'yup'
 import axios, { AxiosError, isAxiosError } from 'axios'
@@ -15,6 +16,7 @@ export default function Home() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorStatus, setErrorStatus] = useState("");
+  const router = useRouter();
 
   axios.defaults.withCredentials=true;
   const LoginSchema = Yup.object().shape({ 
@@ -41,6 +43,9 @@ export default function Home() {
         localStorage.setItem("role",role);        
         console.log(`user ${localStorage.getItem("firstName")} is connected`);
         
+        if(role==='REFERENT'){
+          router.push('/public-user');
+        }
        })
       .catch((error)=>{ 
         setHasError(true);
@@ -57,7 +62,7 @@ export default function Home() {
   const {errors, touched, getFieldProps} = formik;
 
   return (
-    <main className='bg-white h-screen flex flex-col justify-between'>
+    <main className='bg-white flex flex-col justify-between'>
       <Header hasSignedIn = {false} />
       <section className='flex w-full h-[92%] items-start justify-between bg-white'>
         <FormikProvider value={formik}>
@@ -73,15 +78,15 @@ export default function Home() {
               <h2 className='text-secondary text-lg font-medium'>Identifiant utilisateur</h2>
               <div className='w-full p-3 border border-primary flex items-centers'>
                 <Icon icon="mdi:user-circle-outline" width={24} className='text-secondary' />
-                <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required {...getFieldProps('email')} value={formik.values.email} onChange={formik.handleChange} onError={()=>Boolean(touched.email && errors.email)} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
+                <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="ex: monemail@email.em" required {...getFieldProps('email')} value={formik.values.email} onChange={formik.handleChange} onError={()=>Boolean(touched.email && errors.email)} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
               </div>            
             </div>
             <div className='w-[59%] mt-5 mb-10 flex flex-col justify-start space-y-2'>
               <h2 className='text-secondary text-lg font-medium'>Mot de passe</h2>
               <div className='w-full p-3 border border-primary flex items-centers'>
                 <Icon icon="material-symbols:lock-outline" width={24} className='text-secondary' />
-                <input type={ isPasswordVisible ? "text" : "password" } required {...getFieldProps('password')} value={formik.values.password} onChange={formik.handleChange} onError={()=>formik.setErrors} className='bg-white mx-2 w-4/5 border-none focus:outline-none text-secondary' />
-                <button className='w-1/7' onClick={()=>setIsPasswordVisible(!isPasswordVisible)}><Icon icon={ isPasswordVisible ? "mdi:eye-off" : "ic:baseline-remove-red-eye" } width={24} className='text-primary' /></button>
+                <input type={ isPasswordVisible ? "text" : "password" } placeholder="ex: mon mot de passe" required {...getFieldProps('password')} value={formik.values.password} onChange={formik.handleChange} onError={()=>formik.setErrors} className='bg-white mx-2 w-4/5 border-none focus:outline-none text-secondary' />
+                <button type='button' className='w-1/7' onClick={()=>setIsPasswordVisible(!isPasswordVisible)}><Icon icon={ isPasswordVisible ? "mdi:eye-off" : "ic:baseline-remove-red-eye" } width={24} className='text-primary' /></button>
               </div>  
             </div>
             <div className='w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
@@ -95,7 +100,6 @@ export default function Home() {
           </div>          
         </div>
       </section>
-      <Footer/>
     </main>
   )
 }
