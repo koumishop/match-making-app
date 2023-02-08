@@ -34,17 +34,28 @@ export default function Home() {
       setErrorStatus("");
       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { email, password })
       .then((response)=>{ 
-        const { id, accessToken, firstName, email, role} = response.data;
+        const { id, accessToken, firstName, email, role, company} = response.data;
         
         localStorage.setItem("userId",id);
         localStorage.setItem("token",accessToken);
         localStorage.setItem("firstName",firstName);
         localStorage.setItem("email",email);
-        localStorage.setItem("role",role);        
+        localStorage.setItem("role",role);
+
         console.log(`user ${localStorage.getItem("firstName")} is connected`);
         
         if(role==='REFERENT'){
-          router.push('/public-user');
+          localStorage.setItem("company",company.companyName);
+          localStorage.setItem("companyType",company.companyType);
+          if(company.companyType==='PUBLIC'){       
+            router.push('/public-user');
+          } else if(company.companyType==='PRIVATE'){       
+            router.push('/private-user');
+          }
+        }else if(role==='ADMIN'){
+          router.push('/admin');
+        }else{
+          router.push('/');
         }
        })
       .catch((error)=>{ 
