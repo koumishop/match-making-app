@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Icon } from '@iconify/react';
 
 export default function Header({hasSignedIn, companyName}) {
   const [user, setUser] = useState({});
+  const router = useRouter();
   useEffect(() => {
     // Perform localStorage action
     setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), company:localStorage.getItem('company')});
   }, [])
 
 const handleLogOut = ()=>{
-  console.log("logged out");
-  window.localStorage.clear;
+  console.log(`${user.firstName} logged out`);
+  window.localStorage.clear();
+  router.push('/');
   
 };
 

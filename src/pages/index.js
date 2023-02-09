@@ -1,22 +1,77 @@
 import Image from 'next/image'
 import { Oswald } from '@next/font/google'
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import React,{ useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useFormik, FormikProvider, Form } from 'formik'
+import { useFormik, FormikProvider, Form } from 'formik';
 import * as Yup from 'yup'
 import axios, { AxiosError, isAxiosError } from 'axios'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Header from '@/components/Header';
 
 
 const oswald = Oswald({ subsets: ['latin'] })
 
 export default function Home() {
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorStatus, setErrorStatus] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const isConnected = localStorage.getItem("isConnected");
+    if(!isConnected) router.push('/');
+
+    const queryParameters = new URLSearchParams(window.location.search);
+    const email = queryParameters.get("mail");
+    const password = queryParameters.get("password");
+
+    if(email && password){
+      console.log(`**** email : ${email} password : ${password}`);
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { email, password })
+      .then((response)=>{ 
+        const { id, accessToken, firstName, email, role, company} = response.data;
+        
+        localStorage.setItem("userId",id);
+        localStorage.setItem("token",accessToken);
+        localStorage.setItem("firstName",firstName);
+        localStorage.setItem("email",email);
+        localStorage.setItem("role",role);
+        localStorage.setItem("isConnected",true);
+
+        console.log(`user ${localStorage.getItem("firstName")} is connected`);
+        
+        if(role==='REFERENT'){
+          localStorage.setItem("company",company.companyName);
+          localStorage.setItem("companyType",company.companyType);
+          if(company.companyType==='PUBLIC'){       
+            router.push('/public-user');
+          } else if(company.companyType==='PRIVATE'){       
+            router.push('/private-user');
+          }
+        }else if(role==='ADMIN'){
+          router.push('/admin');
+        }else{
+          router.push('/');
+        }
+       })
+      .catch((error)=>{
+        router.push('/');
+        setHasError(true);
+        console.log('error : ', error);
+        if(error.response.status){
+          setErrorStatus(error.response.status);
+        } else {
+          setErrorStatus(error);
+        }
+      })
+    }else{
+    // Perform localStorage action
+    console.log('QueryParameters : ', queryParameters);
+      localStorage.setItem("isConnected",false);
+    }
+
+}, []);
 
   axios.defaults.withCredentials=true;
   const LoginSchema = Yup.object().shape({ 
@@ -41,6 +96,7 @@ export default function Home() {
         localStorage.setItem("firstName",firstName);
         localStorage.setItem("email",email);
         localStorage.setItem("role",role);
+        localStorage.setItem("isConnected",true);
 
         console.log(`user ${localStorage.getItem("firstName")} is connected`);
         
