@@ -51,6 +51,7 @@ export default function PublicDashboard() {
     }, []);
 
     const meetPlace = "Salon Congo";
+
     const formatDate = ()=>{
         var today = new Date(),
         month = '' + (today.getMonth() + 1),
@@ -99,42 +100,6 @@ export default function PublicDashboard() {
             }
         });
     }
-    // const MeetSchema = Yup.object().shape({ 
-    //     appointmentTime: Yup.date("votre heure doit être valide").required("votre heure de rendez-vous est requis"),
-    //     privateCompanyId: Yup.string().required("le prestataire à rencontrer est requis")
-    //    });
-    
-    // const formik = useFormik({ 
-    //     initialValues: { 
-    //       appointmentTime:"",
-    //       privateCompanyId:"",
-    //      },
-    //      validationSchema: MeetSchema,
-    //      onSubmit: ({ appointmentTime, privateCompanyId })=>{ 
-    //         console.log("private company : ", privateCompany, " time : ", appointmentTime);
-    //       setHasError(false);
-    //       setErrorStatus("");
-    //       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/`, { appointmentTime, privateCompanyId }, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
-    //       .then((response)=>{ 
-    //         setHasSuccess(true);
-    //         formik.values.privateCompanyId = "";
-    //         formik.values.appointmentTime = "";
-    //         console.log(response);
-    //        })
-    //       .catch((error)=>{ 
-    //         setHasError(true);
-    //         console.log('error : ', error);
-    //         if(error.response.status){
-    //           setErrorStatus(error.response.status);
-    //         } else {
-    //           setErrorStatus(error);
-    //         }
-    //       })
-    //      }
-    
-    //   }); 
-    //   const {errors, touched, getFieldProps} = formik;
-    
 
     return (
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
@@ -148,7 +113,7 @@ export default function PublicDashboard() {
                             </h1>
                             <span className='text-secondary my-3'>Remplissez ce formulaire et nous vous enverrons une confirmation de rendez-vous</span>
                             {
-                            hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : utilisateur ou mot de passe incorrect`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
+                            hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : utilisateur ou mot de passe incorrect`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-primary bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
                             }   
                             <div className={hasError ? 'w-[59%] mt-5 mb-5 flex flex-col justify-start space-y-2':'w-[59%] mt-1 mb-5 flex flex-col justify-start space-y-2'}>
                                 <h2 className='text-secondary text-lg font-medium'>Entreprise du secteur à contacter</h2>
@@ -188,7 +153,7 @@ export default function PublicDashboard() {
                         <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
                     {
-                        isLoading? <span> En cours de chargement ... </span>: appointments.userAppointments.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous</span>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
+                        isLoading? <span className={`${montserrat.className} font-medium w-full text-secondary flex`}> En cours de chargement ... </span>: appointments.userAppointments.rows.length === 0 ? <span className={`${montserrat.className} font-medium w-full text-secondary flex`}>Vous n'avez aucun rendez-vous</span>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
                     }
                 </div>
 

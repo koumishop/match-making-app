@@ -43,9 +43,9 @@ export default function Home() {
           localStorage.setItem("company",company.companyName);
           localStorage.setItem("companyType",company.companyType);
           if(company.companyType==='PUBLIC'){       
-            router.push('/public-user');
+            router.push('/public-company');
           } else if(company.companyType==='PRIVATE'){       
-            router.push('/private-user');
+            router.push('/private-company');
           }
         }else if(role==='ADMIN'){
           router.push('/admin');
@@ -101,9 +101,9 @@ export default function Home() {
           localStorage.setItem("company",company.companyName);
           localStorage.setItem("companyType",company.companyType);
           if(company.companyType==='PUBLIC'){       
-            router.push('/public-user');
+            router.push('/public-company');
           } else if(company.companyType==='PRIVATE'){       
-            router.push('/private-user');
+            router.push('/private-company');
           }
         }else if(role==='ADMIN'){
           router.push('/admin');
