@@ -21,17 +21,15 @@ export default function Home() {
   useEffect(() => {
     const isConnected = localStorage.getItem("isConnected");
     if(!isConnected) router.push('/');
-
     const queryParameters = new URLSearchParams(window.location.search);
     const email = queryParameters.get("mail");
     const password = queryParameters.get("password");
 
     if(email && password){
-      console.log(`**** email : ${email} password : ${password}`);
       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { email, password })
       .then((response)=>{ 
         const { id, accessToken, firstName, email, role, company} = response.data;
-        
+
         localStorage.setItem("userId",id);
         localStorage.setItem("token",accessToken);
         localStorage.setItem("firstName",firstName);
@@ -67,7 +65,6 @@ export default function Home() {
       })
     }else{
     // Perform localStorage action
-    console.log('QueryParameters : ', queryParameters);
       localStorage.setItem("isConnected",false);
     }
 
@@ -130,7 +127,7 @@ export default function Home() {
 
   return (
     <main className='bg-white flex flex-col justify-between'>
-      <Header hasSignedIn = {false} />
+      <Header hasSignedIn={false} />
       <section className='flex w-full h-[92%] items-start justify-between bg-white'>
         <FormikProvider value={formik}>
           <Form className='w-1/2 h-[100%] mt-4 p-4 bg-white flex flex-col items-center' autoComplete='off' onSubmit={formik.handleSubmit}>

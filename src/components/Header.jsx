@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Icon } from '@iconify/react';
 
-export default function Header({hasSignedIn, companyName}) {
+export default function Header({hasSignedIn,}) {
   const [user, setUser] = useState({});
   const router = useRouter();
   useEffect(() => {

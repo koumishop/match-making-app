@@ -120,7 +120,7 @@ export default function PublicDashboard() {
 
     return (
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
-            <Header hasSignedIn = {true} />
+            <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
                 <div className='w-[60%] h-full mr-4'>
                         <form className='w-[100%] h-[100%] mt-4 pt-4 pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' onSubmit={handleSubmit}>
