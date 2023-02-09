@@ -15,71 +15,89 @@ export default function PublicDashboard() {
     const [hasSuccess, setHasSuccess] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [errorStatus, setErrorStatus] = useState("");
-    const [appointmentTime, setAppointmentTime] = useState(new Date().getHours(), ":",new Date().getMinutes() );
-    const [privateCompanyId, setPrivateCompanyId] = useState("");
+    const [appointmentTime, setAppointmentTime] = useState("");
+    const [selectedCompanyId, setSelectedCompanyId] = useState("");
     const [user, setUser] = useState({});
     const [appointments, setAppointments] = useState({});
+    const [companies, setCompanies] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [isCompanyLoading, setIsCompanyLoading] = useState(true);
 
     useEffect(() => {
         // Perform localStorage action
 
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/confirmed`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
         .then((response)=>{
-            console.log('**** response: ', response.data);
             setAppointments(response.data);
             setIsLoading(false);
             
         }).catch((error)=>{
             setHasError(true);
             setIsLoading(false);
-            console.log('**** error: ', error);
+        });
+
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/companies/private`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        .then((response)=>{
+            setCompanies(response.data);
+            setIsCompanyLoading(false);
+            
+        })
+        .catch((error)=>{
+            setHasError(true);
+            setIsCompanyLoading(false);
         });
 
         setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), company:localStorage.getItem('company'), token:localStorage.getItem('token')});
-    }, []);    
-    const privateCompany={
-        "count": 1,
-        "rows": [
-          {
-            "id": "dafde8f0-85c7-40f3-8e04-d47aafa6c7ef",
-            "companyName": "Mon petit truc en plus",
-            "adress": "25 Av. du Tourisme C/ Ngaliema",
-            "companyType": "PRIVATE",
-            "createdAt": "2023-02-02T16:12:03.000Z",
-            "updatedAt": "2023-02-02T16:12:03.000Z"
-          }
-        ]
-      }; 
+    }, []);
+
     const meetPlace = "Salon Congo";
-    const handleChangePrivateCompanyId = (event)=>{
-        setPrivateCompanyId(event.target.value);
-        console.log("**** company : ", event.target.value);
+    const formatDate = ()=>{
+        var today = new Date(),
+        month = '' + (today.getMonth() + 1),
+        day = '' + today.getDate(),
+        year = today.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+    return [year, month, day].join('-');
+    }
+
+    const handleChangeCompanyId = (event)=>{
+        console.log("**** selected company : ", event.target.value);
+        setSelectedCompanyId(event.target.value);
     }
     const handleChangeAppointmentTime = (event)=>{
         setAppointmentTime(event.target.value)
         console.log("**** time : ", event.target.value);
     }
     const handleSubmit = ()=>{
-        console.log("private company : ", privateCompany, " time : ", appointmentTime);
-    //       setHasError(false);
-    //       setErrorStatus("");
-    //       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/`, { appointmentTime, privateCompanyId }, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
-    //       .then((response)=>{ 
-    //         setHasSuccess(true);
-    //         formik.values.privateCompanyId = "";
-    //         formik.values.appointmentTime = "";
-    //         console.log(response);
-    //        })
-    //       .catch((error)=>{ 
-    //         setHasError(true);
-    //         console.log('error : ', error);
-    //         if(error.response.status){
-    //           setErrorStatus(error.response.status);
-    //         } else {
-    //           setErrorStatus(error);
-    //         }
-    //       })
+        const today = formatDate();
+        const appointment = { appointmentTime:`${today} ${appointmentTime}:00`, privateCompanyId:selectedCompanyId}
+        console.log(" appointment: ", appointment);
+        setHasError(false);
+        setErrorStatus("");
+
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/`, appointment, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        .then((response)=>{ 
+            setHasSuccess(true);
+            console.log(response);
+            setAppointmentTime('');
+            setSelectedCompanyId('');
+            setHasSuccess(false);
+        })
+        .catch((error)=>{ 
+            setHasError(true);
+            console.log('error : ', error);
+
+            if(error.response.status){
+                setErrorStatus(error.response.status);
+            } else {
+                setErrorStatus(error);
+            }
+        });
     }
     // const MeetSchema = Yup.object().shape({ 
     //     appointmentTime: Yup.date("votre heure doit être valide").required("votre heure de rendez-vous est requis"),
@@ -123,7 +141,7 @@ export default function PublicDashboard() {
             <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
                 <div className='w-[60%] h-full mr-4'>
-                        <form className='w-[100%] h-[100%] mt-4 pt-4 pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' onSubmit={handleSubmit}>
+                        <form className='w-[100%] h-[100%] mt-4 pt-4 pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' >
                             <h1 className={oswald.className}>
                                 <div className='text-secondary text-7xl font-bold'>Prendre un</div>
                                 <div className='text-primary text-7xl font-bold'>Rendez-vous</div>
@@ -136,9 +154,10 @@ export default function PublicDashboard() {
                                 <h2 className='text-secondary text-lg font-medium'>Entreprise du secteur à contacter</h2>
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="ic:baseline-work-outline" width={24} className='text-secondary' />
-                                    <select required value={privateCompanyId} onChange={handleChangePrivateCompanyId} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary'>
+                                    <select required value={selectedCompanyId} onChange={handleChangeCompanyId} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary'>
+                                        <option value="" disabled>Selectionnez l'Etreprise</option>
                                         {
-                                            privateCompany.rows.map((row)=>(<option value={row.id} key={row.id}>{row.companyName}</option>))
+                                            isCompanyLoading? <option value=""> En cours de chargement ... </option> : companies.rows.map((row, idx)=>(<option value={row.id} key={idx}>{row.companyName}</option>))
                                         }
                                     </select>
                                 </div>            
@@ -152,7 +171,7 @@ export default function PublicDashboard() {
                                 </div>  
                             </div>
                             <div className='w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
-                                <button type="submit" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Validez le rendez-vous</button>  
+                                <button onClick={handleSubmit} type="button" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Validez le rendez-vous</button>  
                             </div>                                                
                         </form>
                 </div>
