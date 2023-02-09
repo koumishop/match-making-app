@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Image from 'next/image'
 import { Oswald, Montserrat } from '@next/font/google'
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useFormik, FormikProvider, Form } from 'formik'
 import * as Yup from 'yup'
 import axios, { AxiosError, isAxiosError } from 'axios'
@@ -17,7 +17,27 @@ export default function PublicDashboard() {
     const [errorStatus, setErrorStatus] = useState("");
     const [appointmentTime, setAppointmentTime] = useState(new Date().getHours(), ":",new Date().getMinutes() );
     const [privateCompanyId, setPrivateCompanyId] = useState("");
-    
+    const [user, setUser] = useState({});
+    const [appointments, setAppointments] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Perform localStorage action
+
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/confirmed`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        .then((response)=>{
+            console.log('**** response: ', response.data);
+            setAppointments(response.data);
+            setIsLoading(false);
+            
+        }).catch((error)=>{
+            setHasError(true);
+            setIsLoading(false);
+            console.log('**** error: ', error);
+        });
+
+        setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), company:localStorage.getItem('company'), token:localStorage.getItem('token')});
+    }, []);    
     const privateCompany={
         "count": 1,
         "rows": [
@@ -30,31 +50,7 @@ export default function PublicDashboard() {
             "updatedAt": "2023-02-02T16:12:03.000Z"
           }
         ]
-      };
-    const appointments={
-        "userAppointment": {
-          "count": 1,
-          "rows": [
-            {
-              "id": "86965851-ba27-438a-909f-3edb4ab3972f",
-              "isConfirmed": true,
-              "publicCompanyId": "9f018640-46a2-4ee9-8d4e-6b572773ed29",
-              "privateCompanyName": "Mon petit truc en plus",
-              "appointmentTime": "2023-02-03T09:30:00.000Z",
-              "createdAt": "2023-02-03T10:06:46.000Z",
-              "updatedAt": "2023-02-03T11:46:26.000Z"
-            }
-          ]
-        },
-        "company": {
-          "id": "9f018640-46a2-4ee9-8d4e-6b572773ed29",
-          "companyName": "Regideso",
-          "adress": "59, Blvd du 30 Juin C/ Gombe",
-          "companyType": "PUBLIC",
-          "createdAt": "2023-02-02T16:16:52.000Z",
-          "updatedAt": "2023-02-02T16:16:52.000Z"
-        }
-      }  
+      }; 
     const meetPlace = "Salon Congo";
     const handleChangePrivateCompanyId = (event)=>{
         setPrivateCompanyId(event.target.value);
@@ -169,10 +165,12 @@ export default function PublicDashboard() {
             <section className='w-[100%] flex items-start'>
                 <div className='w-[60%] pl-24 pb-20'>
                     <h1 className={oswald.className}>
-                        <div className='text-secondary text-7xl font-bold'>{`Agenda ${appointments.company.companyName}`}</div>
+                        <div className='text-secondary text-7xl font-bold'>{`Agenda ${user.company}`}</div>
                         <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
-                    <Appointments appointments={appointments}/>
+                    {
+                        isLoading? <span> En cours de chargement ... </span>: appointments.userAppointments.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous</span>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
+                    }
                 </div>
 
             </section>

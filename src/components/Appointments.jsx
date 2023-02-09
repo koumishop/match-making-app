@@ -14,7 +14,7 @@ export default function Appointments({ appointment, company}) {
             </div>
             <div className='p-3 flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
-                {company.companyType==='PUBLIC'? privateCompanyName:appointment.privateCompanyName}
+                {company.companyType==='PUBLIC'? appointment.privateCompanyName:appointment.publicCompanyName}
             </div>
             <div className='p-3 flex border border-primary'>
                 <Icon icon="ic:outline-place" width={24} className='text-primary mr-2' />
