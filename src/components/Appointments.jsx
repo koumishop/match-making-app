@@ -7,10 +7,12 @@ const meetPlace = "Salon Congo";
 export default function Appointments({ appointment, company}) {
     const getTimeStart =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes();
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
         return `${hour}:${minutes}`
     }
     const getTimeEnd =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes()+20;
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
         return `${hour}:${minutes}`
     }
     const appointmentTimeStart = getTimeStart(appointment.appointmentTime);
@@ -20,11 +22,11 @@ export default function Appointments({ appointment, company}) {
   return (
     <div className='w-full mb-4'>
         <div className={`${montserrat.className} font-medium w-full text-secondary flex`}>
-            <div className='p-3 flex border border-primary'>
+            <div className='w-[21%] p-3 flex border border-primary'>
                 <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-primary mr-2' />
                 {`${appointmentTimeStart} - ${appointmentTimeEnd}`}
             </div>
-            <div className='p-3 flex border border-primary'>
+            <div className='w-[27%] p-3 flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                 {company.companyType==='PUBLIC'? appointment.privateCompanyName:appointment.publicCompanyName}
             </div>

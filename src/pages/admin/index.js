@@ -42,13 +42,13 @@ export default function AdminDashboard() {
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
             <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
-            <div className='w-[60%] pl-24 pb-20 mt-4 pt-4'>
+            <div className='w-[70%] pl-24 pb-20 mt-4 pt-4'>
                     <h1 className={`${oswald.className} mb-10`}>
                         <div className='text-secondary text-7xl font-bold'>Agenda Partenaires</div>
                         <div className='text-primary text-7xl font-bold'>Rendez-vous à valider</div>
                     </h1>
                     {
-                        isLoading? <span> En cours de chargement ... </span>: appointmentToConfirm.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous à valider</span>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row} setIsLoading{...setIsLoading()} />)})
+                        isLoading? <span> En cours de chargement ... </span>: appointmentToConfirm.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous à valider</span>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row}  />)})
                     }
                 </div>
             </section>

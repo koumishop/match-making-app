@@ -4,26 +4,22 @@ import axios, { AxiosError, isAxiosError } from 'axios'
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
-export default function Appointments({ appointment, setIsLoading}) {
+export default function Appointments({ appointment, company}) {
     const handleAppointmentValidation = (id) => {
-        setIsLoading(true);
         const appointmentId = id;
         console.log("appointment id : ", appointmentId);
-        axios.put(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate/${appointmentId}`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
-        .then((response)=>{
-            setIsLoading(false);
-            console.log('**** response : ', response);
-        })
-        .catch((error)=>console.log("error : ", error))
+        // axios.put(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate/${appointmentId}`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        
     }
 
     const getTimeStart =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes();
-        return `${hour}:${minutes}`
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        return `${hour < 10 ? `0${hour}` : hour}:${minutes < 10 ? `0${minutes}` : minutes}`
     }
     const getTimeEnd =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes()+20;
-        return `${hour}:${minutes}`
+        return `${hour < 10 ? `0${hour}` : hour}:${minutes < 10 ? `0${minutes}` : minutes}`
     }
     const appointmentTimeStart = getTimeStart(appointment.appointmentTime);
     const appointmentTimeEnd = getTimeEnd(appointment.appointmentTime);
@@ -31,16 +27,16 @@ export default function Appointments({ appointment, setIsLoading}) {
 
   return (
     <div className='w-full mb-4'>
-        <div className={`${montserrat.className} font-medium w-full text-secondary flex`}>
-            <div className='p-3 flex border border-primary'>
+        <div className={`${montserrat.className} font-medium w-[100%] text-secondary flex`}>
+            <div className='w-[21%] p-3 flex border border-primary'>
                 <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-primary mr-2' />
                 {`${appointmentTimeStart} - ${appointmentTimeEnd}`}
             </div>
-            <div className='p-3 flex border border-primary'>
+            <div className='w-[21%] p-3 flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                 {appointment.publicCompanyName}
             </div>
-            <div className='p-3 flex border border-primary'>
+            <div className='w-[27%] p-3 flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                 {appointment.privateCompanyName}
             </div>
