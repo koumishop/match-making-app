@@ -4,8 +4,7 @@ import Image from 'next/image'
 import { Oswald, Montserrat } from '@next/font/google'
 import { Icon } from '@iconify/react'
 import { useState, useEffect } from 'react'
-import { useFormik, FormikProvider, Form } from 'formik'
-import * as Yup from 'yup'
+import TimePicker from '@/components/TimePicker';
 import axios, { AxiosError, isAxiosError } from 'axios'
 import Appointments from '@/components/Appointments'
 
@@ -71,6 +70,7 @@ export default function PublicDashboard() {
         setSelectedCompanyId(event.target.value);
     }
     const handleChangeAppointmentTime = (event)=>{
+        console.log("time : ", event.target.value);
         setAppointmentTime(event.target.value)
     }
     const handleSubmit = ()=>{
@@ -117,7 +117,7 @@ export default function PublicDashboard() {
                                 <h2 className='text-secondary text-lg font-medium'>Entreprise du secteur à contacter</h2>
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="ic:baseline-work-outline" width={24} className='text-secondary' />
-                                    <select required value={selectedCompanyId} onChange={handleChangeCompanyId} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary'>
+                                    <select required value={selectedCompanyId} onChange={handleChangeCompanyId} className='bg-white mx-2  w-full border-none focus:outline-none text-secondary'>
                                         <option value="" disabled>Selectionnez l'Etreprise</option>
                                         {
                                             isCompanyLoading? <option value=""> En cours de chargement ... </option> : companies.rows.map((row, idx)=>(<option value={row.id} key={idx}>{row.companyName}</option>))
@@ -130,7 +130,7 @@ export default function PublicDashboard() {
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-secondary' />
                                     <input type="text" value={meetPlace} disabled className='bg-white mx-2  w-[40%] border-none focus:outline-none text-secondary text-opacity-60 font-bold' />
-                                    <input type="time" required value={appointmentTime} onChange={handleChangeAppointmentTime} className='bg-white mx-2 w-[25%] border-none focus:outline-none text-secondary' />
+                                    <TimePicker onChange={handleChangeAppointmentTime} className='bg-white mx-2 w-[50%] border-none focus:outline-none text-secondary' />
                                 </div>  
                             </div>
                             <div className='w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
@@ -145,7 +145,7 @@ export default function PublicDashboard() {
                 </div>
             </section>
             <section className='w-[100%] flex items-start'>
-                <div className='w-[60%] pl-24 pb-20'>
+                <div className='w-[70%] pl-24 pb-20'>
                     <h1 className={`${oswald.className} mb-10`}>
                         <div className='text-secondary text-7xl font-bold'>{`Agenda ${user.company}`}</div>
                         <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
