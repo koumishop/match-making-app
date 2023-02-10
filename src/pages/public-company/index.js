@@ -68,17 +68,14 @@ export default function PublicDashboard() {
     }
 
     const handleChangeCompanyId = (event)=>{
-        console.log("**** selected company : ", event.target.value);
         setSelectedCompanyId(event.target.value);
     }
     const handleChangeAppointmentTime = (event)=>{
         setAppointmentTime(event.target.value)
-        console.log("**** time : ", event.target.value);
     }
     const handleSubmit = ()=>{
         const today = formatDate();
         const appointment = { appointmentTime:`${today} ${appointmentTime}:00`, privateCompanyId:selectedCompanyId}
-        console.log(" appointment: ", appointment);
         setHasError(false);
         setErrorStatus("");
 

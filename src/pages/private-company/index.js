@@ -23,7 +23,6 @@ export default function PrivateDashboard() {
 
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/confirmed`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
         .then((response)=>{
-            console.log('**** response: ', response.data);
             setAppointments(response.data);
             setIsLoading(false);
             

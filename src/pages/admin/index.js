@@ -22,10 +22,8 @@ export default function AdminDashboard() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Perform localStorage action
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
         .then((response)=>{
-            console.log('**** response: ', response.data.appointmentsToValidate);
             setAppointmentToConfirm(response.data.appointmentsToValidate);
             setIsLoading(false);
             
@@ -35,8 +33,10 @@ export default function AdminDashboard() {
             console.log('**** error: ', error);
         });
 
-        setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), company:localStorage.getItem('company'), token:localStorage.getItem('token')});
+        // Perform localStorage action
+        setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), token:localStorage.getItem('token')});
     }, []);
+
 
     return (
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
                         <div className='text-primary text-7xl font-bold'>Rendez-vous à valider</div>
                     </h1>
                     {
-                        isLoading? <span> En cours de chargement ... </span>: appointmentToConfirm.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous à valider</span>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row} />)})
+                        isLoading? <span> En cours de chargement ... </span>: appointmentToConfirm.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous à valider</span>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row} setIsLoading{...setIsLoading()} />)})
                     }
                 </div>
             </section>
