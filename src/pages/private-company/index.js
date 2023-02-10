@@ -1,3 +1,4 @@
+'use client'
 import Header from '@/components/Header'
 import Image from 'next/image'
 import { Oswald, Montserrat } from '@next/font/google'
@@ -41,7 +42,7 @@ export default function PrivateDashboard() {
             <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
                 <div className='w-[60%] pl-24 pb-20 mt-4 pt-4'>
-                    <h1 className={oswald.className}>
+                    <h1 className={`${oswald.className} mb-10`}>
                         <div className='text-secondary text-7xl font-bold'>{`Agenda ${user.company}`}</div>
                         <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>

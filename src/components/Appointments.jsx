@@ -18,7 +18,7 @@ export default function Appointments({ appointment, company}) {
     //appointment.appointmentTime
 
   return (
-    <div className='w-full my-10'>
+    <div className='w-full mb-4'>
         <div className={`${montserrat.className} font-medium w-full text-secondary flex`}>
             <div className='p-3 flex border border-primary'>
                 <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-primary mr-2' />
