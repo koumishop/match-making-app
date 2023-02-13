@@ -2,7 +2,6 @@
 import Header from '@/components/Header'
 import Image from 'next/image'
 import { Oswald, Montserrat } from '@next/font/google'
-import { Icon } from '@iconify/react'
 import { useState, useEffect } from 'react'
 import { useFormik, FormikProvider, Form } from 'formik'
 import * as Yup from 'yup'
@@ -27,7 +26,6 @@ export default function PrivateDashboard() {
             setIsLoading(false);
             
         }).catch((error)=>{
-            setHasError(true);
             setIsLoading(false);
             console.log('**** error: ', error);
         });
@@ -46,7 +44,7 @@ export default function PrivateDashboard() {
                         <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
                     {
-                        isLoading? <span> En cours de chargement ... </span>: appointments.userAppointments.rows.length === 0 ? <span>Vous n'avez aucun rendez-vous</span>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
+                        isLoading? <span> En cours de chargement ... </span>: (!appointments.userAppointments) || appointments.userAppointments.rows.length === 0 ? <div className='w-[60%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
                     }
                 </div>
                 <div className='w-[40%] h-full flex relative'>

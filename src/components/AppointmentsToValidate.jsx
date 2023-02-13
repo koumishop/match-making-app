@@ -1,14 +1,22 @@
 import { Icon } from '@iconify/react';
 import { Montserrat } from '@next/font/google';
 import axios, { AxiosError, isAxiosError } from 'axios'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
-export default function Appointments({ appointment, company}) {
+export default function Appointments({ appointment, token, getData}) {
+
     const handleAppointmentValidation = (id) => {
         const appointmentId = id;
-        console.log("appointment id : ", appointmentId);
-        // axios.put(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate/${appointmentId}`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        console.log("appointment id : ", appointmentId, " token: ", token);
+        axios.put(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate/${appointmentId}`, { headers:{ 'x-access-token': `${token}` } })
+        .then((response)=>{
+            console.dir(response);
+            getData();
+        })
+        .catch((error)=>console.dir(error))
         
     }
 
