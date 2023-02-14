@@ -20,8 +20,13 @@ export default function AdminDashboard() {
     const [errorStatus, setErrorStatus] = useState("");
     const [tabValue, setTabValue] = useState('1');
     const [user, setUser] = useState({});
+    const [publicCompany, setPublicCompany] = useState({});
+    const [privateCompany, setPrivateCompany] = useState({});
     const [appointmentToConfirm, setAppointmentToConfirm] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [isPublicCompanyLoading, setIsPublicCompanyLoading] = useState(true);
+    const [isPrivateCompanyLoading, setIsPrivateCompanyLoading] = useState(true);
+
 
     const getData = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
@@ -36,8 +41,30 @@ export default function AdminDashboard() {
         });
 
     }
+    const getCompanies=(companyType)=>{
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/companies/${companyType}`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        .then((response)=>{
+            if(companyType==="public"){
+                setPublicCompany(response.data);
+                setIsPublicCompanyLoading(false);
+                console.log('**** public : ', response.data);
+            }else if(companyType==="private"){
+                setPrivateCompany(response.data);
+                setIsPrivateCompanyLoading(false);               
+            }
+        })
+        .catch((error)=>{
+            setHasError(true);
+            setIsPublicCompanyLoading(false);
+            setIsPrivateCompanyLoading(false);
+            console.log('**** error: ', error);
+        })
+    } ;
+
     useEffect(() => {
         getData();
+        getCompanies("public");
+        getCompanies("private");
         // Perform localStorage action
         setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), token:localStorage.getItem('token')});
     }, []);
@@ -77,10 +104,10 @@ export default function AdminDashboard() {
                             <Tab className=' w-1/3 text-white font-semibold border border-primary bg-primary hover:opacity-50' label="Enregistrer une Entreprise" value="3" />
                         </TabList>
                         <TabPanel value="1">
-                            <CompanyList/>
+                            {isPublicCompanyLoading ? <span> En cours de chargement ... </span>: (!publicCompany.rows) || publicCompany.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/no_companies.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez encore enregistré aucune Entreprise</span></div>: publicCompany.rows.map((row, idx)=>(<CompanyList key={idx} company={row}/>))}
                         </TabPanel>
                         <TabPanel value="2">
-                            <CompanyList/>
+                            {isPrivateCompanyLoading ? <span> En cours de chargement ... </span>: (!privateCompany.rows) || privateCompany.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/no_companies.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez encore enregistré aucune Entreprise</span></div>: privateCompany.rows.map((row, idx)=>(<CompanyList key={idx} company={row}/>))}
                         </TabPanel>
                         <TabPanel value="3">Item Three</TabPanel>
                     </TabContext>
