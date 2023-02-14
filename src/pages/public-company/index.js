@@ -150,7 +150,7 @@ export default function PublicDashboard() {
                         <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
                     {
-                        isLoading? <span className={`${montserrat.className} font-medium w-full text-secondary flex`}> En cours de chargement ... </span>: (!appointments.userAppointments) || appointments.userAppointments.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
+                        isLoading? <span className={`${montserrat.className} font-medium w-full text-secondary flex`}> En cours de chargement ... </span>: (!appointments.userAppointments) || appointments.userAppointments.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' alt='rendez-vous not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
                     }
                 </div>
 
