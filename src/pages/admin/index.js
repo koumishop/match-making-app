@@ -10,6 +10,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CompanyList from '@/components/CompanyList'
+import RegisterCompanyForm from '@/components/RegisterCompanyForm'
 
 const oswald = Oswald({ subsets: ['latin'] });
 const montserrat = Montserrat({ subsets: ['latin'] });
@@ -109,7 +110,9 @@ export default function AdminDashboard() {
                         <TabPanel value="2">
                             {isPrivateCompanyLoading ? <span> En cours de chargement ... </span>: (!privateCompany.rows) || privateCompany.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/no_companies.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez encore enregistré aucune Entreprise</span></div>: privateCompany.rows.map((row, idx)=>(<CompanyList key={idx} company={row}/>))}
                         </TabPanel>
-                        <TabPanel value="3">Item Three</TabPanel>
+                        <TabPanel value="3">
+                            <RegisterCompanyForm/>
+                        </TabPanel>
                     </TabContext>
                 </div>
             </section>

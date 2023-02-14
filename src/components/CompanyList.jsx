@@ -16,7 +16,6 @@ export default function CompanyList({ company }) {
         .then((response)=>{
             setRef(response.data);
             setIsLoading(false);
-            console.log('**** ref : ', response.data)
         }).catch((error)=>{
             setIsLoading(false);
             console.log('**** error: ', error);
