@@ -84,12 +84,12 @@ export default function RegisterCompanyForm() {
     }
 
     return(
-        <div className='w-[60%] h-full mr-4 border border-primary'>
-            <form className='w-[100%] h-[100%] mt-4 pt-4 pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' >
+        <div className='w-[100%] md:w-[60%] h-full md:mr-4'>
+            <form className='w-[100%] h-[100%] mt-4 pt-4 pl-0 md:pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' >
                 {
                 hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : utilisateur ou mot de passe incorrect`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-primary bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
                 }
-                <div className={hasError ? 'w-[59%] mt-5 mb-4 flex flex-col justify-start space-y-2':'w-[59%] mt-1 mb-5 flex flex-col justify-start space-y-2'}>
+                <div className={hasError ? 'w-[95%] md:w-[59%] my-4 md:mt-5 md:mb-4 flex flex-col justify-start space-y-2':'w-[95%] md:w-[59%] mt-1 mb-4 md:mb-5 flex flex-col justify-start space-y-2'}>
                     <h2 className='text-secondary text-lg font-medium'>Type Entreprise</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="material-symbols:home-work-outline-rounded" width={24} className='text-secondary' />
@@ -100,42 +100,42 @@ export default function RegisterCompanyForm() {
                         </select>
                     </div>            
                 </div>   
-                <div className='w-[59%] mb-4 flex flex-col justify-start space-y-2'>
+                <div className='w-[95%] md:w-[59%] mb-4 flex flex-col justify-start space-y-2'>
                     <h2 className='text-secondary text-lg font-medium'>Designation</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="ic:baseline-work-outline" width={24} className='text-secondary' />
                         <input type="text" placeholder="ex: mon entreprise" required value={companyDesignation} onChange={handleChangeCompanyDesignation} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
                     </div>            
                 </div>
-                <div className='w-[59%] mb-4 flex flex-col justify-start space-y-2'>
+                <div className='w-[95%] md:w-[59%] mb-4 flex flex-col justify-start space-y-2'>
                     <h2 className='text-secondary text-lg font-medium'>Adresse</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="ic:outline-place" width={24} className='text-secondary' />
                         <input type="text" placeholder="ex: 25 av. de l’equateur c/ gombe" required value={companyAdress} onChange={handleChangeCompanyAdress} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
                     </div>            
                 </div>
-                <div className='w-[59%] mb-4 flex flex-col justify-start space-y-2'>
+                <div className='w-[95%] md:w-[59%] mb-4 flex flex-col justify-start space-y-2'>
                     <h2 className='text-secondary text-lg font-medium'>Identité Reférent</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="mdi:user-circle-outline" width={24} className='text-secondary' />
                         <input type="text" placeholder="ex: prénom nom" required value={refName} onChange={handleChangeRefName} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
                     </div>            
                 </div>
-                <div className='w-[59%] mb-4 flex flex-col justify-start space-y-2'>
+                <div className='w-[95%] md:w-[59%] mb-4 flex flex-col justify-start space-y-2'>
                     <h2 className='text-secondary text-lg font-medium'>Adresse E-mail</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="ic:outline-mark-email-unread" width={24} className='text-secondary' />
                         <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="ex: monemail@email.em" required value={refEmail} onChange={handleChangeRefEmail} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
                     </div>            
                 </div>
-                <div className='w-[59%] mb-5 flex flex-col justify-start space-y-2'>
+                <div className='w-[95%] md:w-[59%] mb-5 flex flex-col justify-start space-y-2'>
                     <h2 className='text-secondary text-lg font-medium'>Numéro Tel</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="bi:phone" width={24} className='text-secondary' />
                         <input type="text" placeholder="ex: +243 895 956 735" required value={refPhone} onChange={handleChangeRefPhone} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
                     </div>            
                 </div>
-                <div className='w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24 text-white'>
+                <div className='w-[95%] md:w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24 text-white'>
                     <button onClick={handleSubmit} type="button" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Validez l’enregistrement</button>  
                 </div>
             </form>

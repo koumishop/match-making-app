@@ -38,10 +38,10 @@ export default function PrivateDashboard() {
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
             <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
-                <div className='w-[70%] pl-24 pb-20 mt-4 pt-4'>
+                <div className='w-[100%] md:w-[70%] pl-6 md:pl-24 md:pb-20 mt-4 pt-4'>
                     <h1 className={`${oswald.className} mb-10`}>
-                        <div className='text-secondary text-7xl font-bold'>{`Agenda ${user.company}`}</div>
-                        <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
+                        <div className='text-secondary text-5xl md:text-7xl font-bold'>{`Agenda ${user.company}`}</div>
+                        <div className='text-primary text-5xl md:text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
                     {
                         isLoading? <span> En cours de chargement ... </span>: (!appointments.userAppointments) || appointments.userAppointments.rows.length === 0 ? <div className='w-[60%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' alt='rendez-vous not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})

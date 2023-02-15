@@ -102,17 +102,17 @@ export default function PublicDashboard() {
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
             <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
-                <div className='w-[60%] h-full mr-4'>
-                        <form className='w-[100%] h-[100%] mt-4 pt-4 pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' >
+                <div className='w-[100%] md:w-[60%] h-full md:mr-4'>
+                        <form className='w-[100%] h-[100%] mt-4 pt-4 pl-6 pr-2 md:pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' >
                             <h1 className={oswald.className}>
-                                <div className='text-secondary text-7xl font-bold'>Prendre un</div>
-                                <div className='text-primary text-7xl font-bold'>Rendez-vous</div>
+                                <div className='text-secondary text-5xl md:text-7xl font-bold'>Prendre un</div>
+                                <div className='text-primary text-5xl md:text-7xl font-bold'>Rendez-vous</div>
                             </h1>
                             <span className='text-secondary my-3'>Remplissez ce formulaire et nous vous enverrons une confirmation de rendez-vous</span>
                             {
                             hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : utilisateur ou mot de passe incorrect`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-primary bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
                             }   
-                            <div className={hasError ? 'w-[59%] mt-5 mb-5 flex flex-col justify-start space-y-2':'w-[59%] mt-1 mb-5 flex flex-col justify-start space-y-2'}>
+                            <div className={hasError ? 'w-[96%] md:w-[59%] my-4 md:mt-5 md:mb-5 flex flex-col justify-start space-y-2':'w-[96%] md:w-[59%] mt-1 mb-4 md:mb-5 flex flex-col justify-start space-y-2'}>
                                 <h2 className='text-secondary text-lg font-medium'>Entreprise du secteur à contacter</h2>
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="ic:baseline-work-outline" width={24} className='text-secondary' />
@@ -124,7 +124,7 @@ export default function PublicDashboard() {
                                     </select>
                                 </div>            
                             </div>
-                            <div className='w-[59%] mt-5 mb-10 flex flex-col justify-start space-y-2'>
+                            <div className='w-[96%] md:w-[59%] md:mt-5 mb-10 flex flex-col justify-start space-y-2'>
                                 <h2 className='text-secondary text-lg font-medium'>Heure de rendez-vous</h2>
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-secondary' />
@@ -132,22 +132,22 @@ export default function PublicDashboard() {
                                     <TimePicker onChange={handleChangeAppointmentTime} className='bg-white mx-2 w-[50%] border-none focus:outline-none text-secondary' />
                                 </div>  
                             </div>
-                            <div className='w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
+                            <div className='w-[96%] md:w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-12 md:mb-24'>
                                 <button onClick={handleSubmit} type="button" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Validez le rendez-vous</button>  
                             </div>                                                
                         </form>
                 </div>
-                <div className='w-[40%] h-full flex relative'>
+                <div className=' hidden md:w-[40%] md:h-full md:flex md:relative'>
                     <div className='relative'>
                         <Image src="/images/match_making_bg.png" alt='match-making background' width={600} height={600} className='absolutes' />
                     </div>          
                 </div>
             </section>
             <section className='w-[100%] flex items-start'>
-                <div className='w-[70%] pl-24 pb-20'>
+                <div className='w-[100%] md:w-[70%] pl-6 md:pl-24 md:pb-20'>
                     <h1 className={`${oswald.className} mb-10`}>
-                        <div className='text-secondary text-7xl font-bold'>{`Agenda ${user.company}`}</div>
-                        <div className='text-primary text-7xl font-bold'>Nos Rendez-vous</div>
+                        <div className='text-secondary text-5xl md:text-7xl font-bold'>{`Agenda ${user.company}`}</div>
+                        <div className='text-primary text-5xl md:text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
                     {
                         isLoading? <span className={`${montserrat.className} font-medium w-full text-secondary flex`}> En cours de chargement ... </span>: (!appointments.userAppointments) || appointments.userAppointments.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' alt='rendez-vous not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})

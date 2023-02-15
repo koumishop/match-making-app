@@ -128,24 +128,24 @@ export default function Home() {
   return (
     <main className='bg-white flex flex-col justify-between'>
       <Header hasSignedIn={false} />
-      <section className='flex w-full h-[92%] items-start justify-between bg-white'>
+      <section className='md:flex md:w-full md:h-[92%] md:items-start md:justify-between bg-white'>
         <FormikProvider value={formik}>
-          <Form className='w-1/2 h-[100%] mt-4 p-4 bg-white flex flex-col items-center' autoComplete='off' onSubmit={formik.handleSubmit}>
+          <Form className='w-[100%] md:w-1/2 h-[100%] mt-4 p-4 bg-white flex flex-col items-center' autoComplete='off' onSubmit={formik.handleSubmit}>
             <h1 className={oswald.className}>
-              <div className='text-secondary text-7xl font-bold'>Bienvenu sur</div>
-              <div className='text-primary text-7xl font-bold'>Match-Making</div>
+              <div className='text-secondary text-5xl md:text-7xl font-bold'>Bienvenu sur</div>
+              <div className='text-primary text-5xl md:text-7xl font-bold'>Match-Making</div>
             </h1>
             {
              hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : utilisateur ou mot de passe incorrect`:`erreur : ${errorStatus}`}</span> : <></>
             }
-            <div className={hasError ? 'w-[59%] mt-5 mb-5 flex flex-col justify-start space-y-2':'w-[59%] mt-14 mb-5 flex flex-col justify-start space-y-2'}>
+            <div className={hasError ? 'w-[80%] md:w-[59%] md:mt-5 md:mb-5 flex flex-col justify-start space-y-2':'w-[80%] md:w-[59%] mt-14 mb-5 flex flex-col justify-start space-y-2'}>
               <h2 className='text-secondary text-lg font-medium'>Identifiant utilisateur</h2>
               <div className='w-full p-3 border border-primary flex items-centers'>
                 <Icon icon="mdi:user-circle-outline" width={24} className='text-secondary' />
                 <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="ex: monemail@email.em" required {...getFieldProps('email')} value={formik.values.email} onChange={formik.handleChange} onError={()=>Boolean(touched.email && errors.email)} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
               </div>            
             </div>
-            <div className='w-[59%] mt-5 mb-10 flex flex-col justify-start space-y-2'>
+            <div className='w-[80%] md:w-[59%] mt-3 md:mt-5 mb-10 flex flex-col justify-start space-y-2'>
               <h2 className='text-secondary text-lg font-medium'>Mot de passe</h2>
               <div className='w-full p-3 border border-primary flex items-centers'>
                 <Icon icon="material-symbols:lock-outline" width={24} className='text-secondary' />
@@ -153,12 +153,12 @@ export default function Home() {
                 <button type='button' className='w-1/7' onClick={()=>setIsPasswordVisible(!isPasswordVisible)}><Icon icon={ isPasswordVisible ? "mdi:eye-off" : "ic:baseline-remove-red-eye" } width={24} className='text-primary' /></button>
               </div>  
             </div>
-            <div className='w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
+            <div className='w-[80%] md:w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
               <button type="submit" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Connectez-vous</button>  
             </div>          
           </Form>
         </FormikProvider>
-        <div className='w-1/2 h-full flex justify-end relative'>
+        <div className='hidden md:w-1/2 md:h-full md:flex md:justify-end md:relative'>
           <div>
             <Image src="/images/match_making_bg.png" alt='match-making background' width={600} height={600} className='absolutes' />
           </div>          

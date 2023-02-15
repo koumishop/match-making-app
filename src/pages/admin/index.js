@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { Icon } from '@iconify/react'
 import { Oswald, Montserrat } from '@next/font/google'
 import { useState, useEffect } from 'react'
 import axios, { AxiosError, isAxiosError } from 'axios'
@@ -50,6 +51,7 @@ export default function AdminDashboard() {
                 setIsPublicCompanyLoading(false);
                 console.log('**** public : ', response.data);
             }else if(companyType==="private"){
+                console.log('**** private : ', response.data);
                 setPrivateCompany(response.data);
                 setIsPrivateCompanyLoading(false);               
             }
@@ -78,31 +80,31 @@ export default function AdminDashboard() {
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
             <Header hasSignedIn={true} />
             <section className='w-[100%] flex items-start'>
-                <div className='w-[70%] pl-24 pb-20 mt-4 pt-4'>
+                <div className='w-[100%] pl-6 md:w-[70%] md:pl-24 md:pb-20 mt-4 pt-4'>
                     <h1 className={`${oswald.className} mb-10`}>
-                        <div className='text-secondary text-7xl font-bold'>Agenda Partenaires</div>
-                        <div className='text-primary text-7xl font-bold'>Rendez-vous à valider</div>
+                        <div className='text-secondary text-5xl md:text-7xl font-bold'>Agenda Partenaires</div>
+                        <div className='text-primary text-5xl md:text-7xl font-bold'>Rendez-vous à valider</div>
                     </h1>
                     {
                         isLoading? <span> En cours de chargement ... </span>: (!appointmentToConfirm.rows) || appointmentToConfirm.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous à valider</span></div>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row} token={user.token} getData={getData}  />)})
                     }
                 </div>
-                <div className='w-[33%] h-full flex relative'>
+                <div className='hidden md:w-[33%] md:h-full md:flex md:relative'>
                     <div className='relative'>
                         <Image src="/images/match_making_bg.png" alt='match-making background' width={600} height={600} className='absolutes' />
                     </div>          
                 </div>
             </section>
             <section className='w-[100%] flex items-start text-secondary'>
-                <div className='w-[98%] pl-24 pb-20'>
-                    <h1 className={`${oswald.className} mb-10 text-primary text-7xl font-bold`}>
+                <div className='w-[100%] md:w-[98%] pl-6 md:pl-24 md:pb-20'>
+                    <h1 className={`${oswald.className} mb-10 text-primary text-5xl md:text-7xl font-bold`}>
                         Nos partenaires
                     </h1>
                     <TabContext value={tabValue}>
-                        <TabList className='w-full border-b pb-1 border-secondary' onChange={handleChangeTab} indicatorColor="#12CFD9">
-                            <Tab className='border border-primary w-1/3 text-secondary font-semibold' label="Entreprises Publiques" value="1" />
-                            <Tab className='text-secondary w-1/3 font-semibold' label="Entreprises Privées" value="2" />
-                            <Tab className=' w-1/3 text-white font-semibold border border-primary bg-primary hover:opacity-50' label="Enregistrer une Entreprise" value="3" />
+                        <TabList className='  w-full border-b pb-1 border-secondary' onChange={handleChangeTab} indicatorColor="#12CFD9">
+                        <Tab className=' w-1/3 text-secondary font-semibold' icon={<Icon icon="material-symbols:home-work-outline-rounded" width={24}/>} label="Publiques" value="1" />
+                            <Tab className=' w-1/3 text-secondary font-semibold' icon={<Icon icon="material-symbols:home-work-outline-rounded" width={24}/>} label="Privées" value="2" />
+                            <Tab className=' w-1/3 text-white font-semibold border border-primary bg-primary hover:opacity-50' icon={<Icon icon="material-symbols:add-home-work-outline-rounded" width={24}/>} label="Entreprise" value="3" />
                         </TabList>
                         <TabPanel value="1">
                             {isPublicCompanyLoading ? <span> En cours de chargement ... </span>: (!publicCompany.rows) || publicCompany.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/no_companies.png' alt='company not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez encore enregistré aucune Entreprise</span></div>: publicCompany.rows.map((row, idx)=>(<CompanyList key={idx} company={row}/>))}

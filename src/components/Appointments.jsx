@@ -22,15 +22,15 @@ export default function Appointments({ appointment, company}) {
   return (
     <div className='w-full mb-4'>
         <div className={`${montserrat.className} font-medium w-full text-secondary flex`}>
-            <div className='w-[21%] p-3 flex border border-primary'>
+            <div className='p-2 md:w-[21%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-primary mr-2' />
                 {`${appointmentTimeStart} - ${appointmentTimeEnd}`}
             </div>
-            <div className='w-[27%] p-3 flex border border-primary'>
+            <div className='p-2 md:w-[27%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                 {company.companyType==='PUBLIC'? appointment.privateCompanyName:appointment.publicCompanyName}
             </div>
-            <div className='p-3 flex border border-primary'>
+            <div className='p-2 md:p-3 md:flex border border-primary'>
                 <Icon icon="ic:outline-place" width={24} className='text-primary mr-2' />
                 {meetPlace}
             </div>

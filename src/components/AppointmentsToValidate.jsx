@@ -34,21 +34,24 @@ export default function Appointments({ appointment, token, getData}) {
     //appointment.appointmentTime
 
   return (
-    <div className='w-full mb-4'>
+    <div className='md:w-full mb-4'>
         <div className={`${montserrat.className} font-medium w-[100%] text-secondary flex`}>
-            <div className='w-[21%] p-3 flex border border-primary'>
+            <div className='p-2 w-1/4 md:w-[21%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-primary mr-2' />
                 {`${appointmentTimeStart} - ${appointmentTimeEnd}`}
             </div>
-            <div className='w-[21%] p-3 flex border border-primary'>
+            <div className='p-2 w-[25%] md:w-[21%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                 {appointment.publicCompanyName}
             </div>
-            <div className='w-[27%] p-3 flex border border-primary'>
+            <div className='p-2  w-[30%] md:w-[27%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                 {appointment.privateCompanyName}
             </div>
-            <div className='border border-primary text-white flex flex-col justify-start space-y-2'>
+            <div className='md:hidden w-[15%] bg-primary border border-primary text-white flex justify-start'>
+                <button type='button' className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50' onClick={()=>handleAppointmentValidation(appointment.id)}><Icon icon="mdi:check-bold" width={24}/></button>
+            </div>            
+            <div className='hidden bg-primary md:border md:border-primary md:text-white md:flex md:flex-col md:justify-start md:space-y-2'>
                 <button type='button' className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50' onClick={()=>handleAppointmentValidation(appointment.id)}>confirmer le rendez-vous</button>
             </div>
         </div>
