@@ -7,7 +7,36 @@ import { useRouter } from 'next/router'
 const montserrat = Montserrat({ subsets: ['latin'] });
 
 export default function Appointments({ appointment, token, getData}) {
+    const [publicCompanyData, setPublicCompanyData] = useState({});
+    const [privateCompanyData, setPrivateCompanyData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
+    
+    useEffect(() => {
+        // Perform localStorage action
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/companies/${appointment.publicCompanyId}`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        .then((response)=>{
+            setPublicCompanyData(response.data);
+            setIsLoading(false);
+            
+        }).catch((error)=>{
+            setIsLoading(false);
+            console.log('**** error: ', error);
+        });
+    
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/companies/${appointment.privateCompanyId}`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
+        .then((response)=>{
+            setPrivateCompanyData(response.data);
+            setIsLoading(false);
+            
+        }).catch((error)=>{
+            setIsLoading(false);
+            console.log('**** error: ', error);
+        });
+    
+
+    }, []);
+    
     const handleAppointmentValidation = (id) => {
         const appointmentId = id;
         console.log("appointment id : ", appointmentId, " token: ", token);
@@ -42,11 +71,11 @@ export default function Appointments({ appointment, token, getData}) {
             </div>
             <div className='p-2 w-[25%] md:w-[21%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
-                {appointment.publicCompanyName}
+                {isLoading?'En cours de chargement': publicCompanyData.companyName}
             </div>
             <div className='p-2  w-[30%] md:w-[27%] md:p-3 md:flex border border-primary'>
                 <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
-                {appointment.privateCompanyName}
+                {isLoading?'En cours de chargement': privateCompanyData.companyName}
             </div>
             <div className='md:hidden w-[15%] bg-primary border border-primary text-white flex justify-start'>
                 <button type='button' className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50' onClick={()=>handleAppointmentValidation(appointment.id)}><Icon icon="mdi:check-bold" width={24}/></button>
