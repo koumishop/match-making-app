@@ -33,7 +33,7 @@ export default function AdminDashboard() {
     const getData = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
         .then((response)=>{
-            setAppointmentToConfirm(response.data.appointmentsToValidate);
+            setAppointmentToConfirm(response.data);
             setIsLoading(false);
             
         }).catch((error)=>{

@@ -30,7 +30,7 @@ export default function PrivateDashboard() {
             console.log('**** error: ', error);
         });
 
-        setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), company:localStorage.getItem('company'), token:localStorage.getItem('token')});
+        setUser({id:localStorage.getItem('id'), firstName:localStorage.getItem('firstName'), company:localStorage.getItem('company'), companyType:localStorage.getItem('companyType'), token:localStorage.getItem('token')});
     }, []);
 
 
@@ -44,7 +44,7 @@ export default function PrivateDashboard() {
                         <div className='text-primary text-5xl md:text-7xl font-bold'>Nos Rendez-vous</div>
                     </h1>
                     {
-                        isLoading? <span> En cours de chargement ... </span>: (!appointments.userAppointments) || appointments.userAppointments.rows.length === 0 ? <div className='w-[60%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' alt='rendez-vous not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointments.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} company={appointments.company}/>)})
+                        isLoading? <span> En cours de chargement ... </span>: (!appointments.userAppointment) || appointments.userAppointment.rows.length === 0 ? <div className='w-[60%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' alt='rendez-vous not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous validé</span></div>: appointments.userAppointment.rows.map((row, idx)=>{ return (<Appointments key={idx} appointment={row} user={user}/>)})
                     }
                 </div>
                 <div className='w-[40%] h-full flex relative'>

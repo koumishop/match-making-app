@@ -31,7 +31,7 @@ export default function CompanyList({ company }) {
 
     return(
         <div className='w-full mb-4 overflow-auto'>
-            <div className={`${montserrat.className} font-medium w-[290%] md:w-[100%] text-secondary flex items-center`}>
+            <div className={`${montserrat.className} font-medium w-[290%] md:w-[100%] text-secondary flex items-start`}>
                 <div className='w-[35%] p-1 md:w-[22%] md:p-3 md:flex border border-primary'>
                     <Icon icon="material-symbols:work-outline" width={24} className='text-primary mr-2' />
                     {company.companyName}
@@ -44,7 +44,7 @@ export default function CompanyList({ company }) {
                     <Icon icon="mdi:user-circle-outline" width={24} className='text-primary mr-2' />
                     {`${ref.firstName} ${ref.lastName}`}
                 </div>
-                <div className='w-[25%] p-1 md:w-[20%] md:p-3 md:flex border border-primary'>
+                <div className='w-[25%] p-1 md:w-[24%] md:p-3 md:flex border border-primary'>
                     <Icon icon="ic:outline-mark-email-unread" width={24} className='text-primary mr-2' />
                     {ref.email}
                 </div>
