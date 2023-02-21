@@ -37,18 +37,18 @@ export default function Appointments({ appointment, user}) {
 
     const getTimeStart =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes();
-        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
         return `${hour}:${minutes}`
     }
     const getTimeEnd =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes()+20;
-        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
         return `${hour}:${minutes}`
     }
     const appointmentTimeStart = getTimeStart(appointment.appointmentTime);
     const appointmentTimeEnd = getTimeEnd(appointment.appointmentTime);
     //appointment.appointmentTime
-    console.log("***** data : ", privateCompanyData);
+    //console.log("***** data : ", privateCompanyData);
   return (
     <div className='w-full mb-4'>
         <div className={`${montserrat.className} font-medium w-full text-secondary flex`}>

@@ -22,6 +22,9 @@ export default function PublicDashboard() {
     const [companies, setCompanies] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [isCompanyLoading, setIsCompanyLoading] = useState(true);
+    const [isLoadingAppointment, setIsLoadingAppointment] = useState(true);
+    const [appointmentData, setAppointmentData] = useState({});
+    const [isApointmentDataLoading, setIsApointmentDataLoading] = useState(true);
 
     useEffect(() => {
         // Perform localStorage action
@@ -50,6 +53,17 @@ export default function PublicDashboard() {
     }, []);
 
     const meetPlace = "Salon Congo";
+    const getTimeData = async (privateCompanyId)=>{
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/${privateCompanyId}`, { headers: { 'x-access-token': `${localStorage.getItem('token')}` } })
+            console.log('**** response timer: ', response.data)
+            return response.data
+        } catch (error) {
+            console.log('**** error: ', error)
+        }finally {
+            setIsLoadingAppointment(false)
+        }
+    }
 
     const formatDate = ()=>{
         var today = new Date(),
@@ -65,9 +79,13 @@ export default function PublicDashboard() {
     return [year, month, day].join('-');
     }
 
-    const handleChangeCompanyId = (event)=>{
-        setSelectedCompanyId(event.target.value);
+    const handleChangeCompanyId = async (event)=>{
+        setSelectedCompanyId(event.target.value);        
+        const appointmentValue = await getTimeData(event.target.value);
+        console.log("***** appointment : ", appointmentValue);
+        setAppointmentData(appointmentValue);
     }
+
     const handleChangeAppointmentTime = (event)=>{
         console.log("time : ", event.target.value);
         setAppointmentTime(event.target.value)
@@ -97,7 +115,7 @@ export default function PublicDashboard() {
             }
         });
     }
-    console.log("***** appointments :", appointments);
+    //console.log("***** appointments :", appointments, " appointmentTimeData :", appointmentData);
     return (
         <main className={`${montserrat.className} bg-white w-screen flex flex-col`}>
             <Header hasSignedIn={true} />
@@ -129,7 +147,7 @@ export default function PublicDashboard() {
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="material-symbols:nest-clock-farsight-analog-outline-rounded" width={24} className='text-secondary' />
                                     <input type="text" value={meetPlace} disabled className='bg-white mx-2  w-[40%] border-none focus:outline-none text-secondary text-opacity-60 font-bold' />
-                                    <TimePicker onChange={handleChangeAppointmentTime} className='bg-white mx-2 w-[50%] border-none focus:outline-none text-secondary' />
+                                    <TimePicker privateCompanyId={appointmentData} onChange={handleChangeAppointmentTime} className='bg-white mx-2 w-[50%] border-none focus:outline-none text-secondary' />
                                 </div>  
                             </div>
                             <div className='w-[96%] md:w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-12 md:mb-24'>
