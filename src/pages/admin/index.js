@@ -11,12 +11,17 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CompanyList from '@/components/CompanyList'
-import RegisterCompanyForm from '@/components/RegisterCompanyForm'
+import RegisterCompanyForm from '@/components/RegisterCompanyForm';
+import useSWR from 'swr';
 
 const oswald = Oswald({ subsets: ['latin'] });
 const montserrat = Montserrat({ subsets: ['latin'] });
 
 export default function AdminDashboard() {
+    // const fetcher = (url) => axios.get(url,{ headers:{ 'x-access-token': `${user.token}` } }).then((resp) => resp);
+    // const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate`, fetcher);
+    // console.log("swr data : ", data, "error : ", error);
+
     const [hasSuccess, setHasSuccess] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [errorStatus, setErrorStatus] = useState("");
@@ -25,12 +30,15 @@ export default function AdminDashboard() {
     const [publicCompany, setPublicCompany] = useState({});
     const [privateCompany, setPrivateCompany] = useState({});
     const [appointmentToConfirm, setAppointmentToConfirm] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(appointmentToConfirm ? false : true);
     const [isPublicCompanyLoading, setIsPublicCompanyLoading] = useState(true);
     const [isPrivateCompanyLoading, setIsPrivateCompanyLoading] = useState(true);
 
 
     const getData = () => {
+        // const fetcher = (...args) => axios.get(...args).then(res => res.json());
+        // const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } }, fetcher);
+        // console.log("swr data : ", data);
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/validate`, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
         .then((response)=>{
             setAppointmentToConfirm(response.data);
@@ -65,6 +73,7 @@ export default function AdminDashboard() {
     } ;
 
     useEffect(() => {
+        console.log("appointment to validate: ", appointmentToConfirm);
         getData();
         getCompanies("public");
         getCompanies("private");
@@ -86,7 +95,7 @@ export default function AdminDashboard() {
                         <div className='text-primary text-5xl md:text-7xl font-bold'>Rendez-vous à valider</div>
                     </h1>
                     {
-                        isLoading? <span> En cours de chargement ... </span>: (!appointmentToConfirm.rows) || appointmentToConfirm.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous à valider</span></div>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row} token={user.token} getData={getData}  />)})
+                        isLoading? <span> En cours de chargement ... </span> : (!appointmentToConfirm.rows) || appointmentToConfirm.rows.length === 0 ? <div className='w-[50%] text-secondary'><span className='w-full h-full'><Image src='/images/nothing_to_validate.png' alt='appointment not found' className=' mb-6' width={1000} height={600} /></span><span className='font-bold  text-xl'>Vous n'avez aucun rendez-vous à valider</span></div>: appointmentToConfirm.rows.map((row, idx)=>{ return (<AppointmentsToValidate key={idx} appointment={row} token={user.token} getData={getData} setIsDataLoading={setIsLoading}  />)})
                     }
                 </div>
                 <div className='hidden md:w-[33%] md:h-full md:flex md:relative'>
