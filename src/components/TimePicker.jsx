@@ -21,14 +21,9 @@ export default function TimePicker({ defaultValue, onChange, name, beginLimit, e
     var setStep = step || 20;
 
     var options = [];
-    console.log("***** used time : ", privateCompanyId.rows);
-    console.log("***** type of : ", typeof(privateCompanyId));
-    console.log("***** is undefined : ", privateCompanyId.rows === undefined);
-
     // options.push(<option key={timeValue} value={timeValue} >{timeValue}</option>);
     
-    privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
-        console.log('***** appointmentTime : ',getTimeStart(row.appointmentTime));
+    defaultValue ? options.push(<option key={timeValue} value={timeValue} selected={defaultValue === timeValue}>{timeValue}</option>): privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
         options.push(<option key={timeValue} value={timeValue}  disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>);
     })
 
@@ -38,7 +33,6 @@ export default function TimePicker({ defaultValue, onChange, name, beginLimit, e
         //  options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>)
 
         privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
-            console.log('***** appointmentTime : ',getTimeStart(row.appointmentTime));
             options.push(<option key={timeValue} value={timeValue} disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>)
         })
 
