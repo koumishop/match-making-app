@@ -8,7 +8,7 @@ export default function Footer() {
       <div className='w-32 h-24 p-4 relative'>
         <Image src="/images/footer_logo.png" alt='match-making logo' fill className='absolute' />
       </div>
-      <p className='w-1/2 py-4'>
+      <p className='w-1/2 py-4 text-white'>
           Africa Tech Invest est une initiative panafricaine qui offre l’opportunité au secteur privé de soutenir de manière concrète et innovante le secteur public.
       </p>
     </footer>
