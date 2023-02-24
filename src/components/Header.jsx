@@ -25,8 +25,8 @@ const handleLogOut = ()=>{
       </div>
       {hasSignedIn?
           <div className='w-[60%] md:w-[40%] flex justify-end items-center '>
-            <Icon icon="mdi:user-circle-outline" width={35} className='md:text-white' />
-            <div className='text-xs md:text-base md:px-1 flex'><span className='hidden md:flex md:mr-1'>Bonjour </span> <span className='font-extrabold mr-1'>{ user.firstName }</span>{user.company? <span> - <span className='font-extrabold'>{ ` ${user.company}` }</span></span> : ""}</div>
+            <Icon icon="mdi:user-circle-outline" color='#FFFFFF' width={35} className='text-white' />
+            <div className='text-xs md:text-base md:px-1 flex text-white'><span className='hidden md:flex md:mr-1'>Bonjour </span> <span className='font-extrabold mr-1'>{ user.firstName }</span>{user.company? <span> - <span className='font-extrabold'>{ ` ${user.company}` }</span></span> : ""}</div>
             <button onClick={handleLogOut} className='flex md:border md:border-primary md:rounded-xl md:bg-primary hover:bg-opacity-0 md:px-2 md:ml-4'><span className='hidden md:flex'>Déconnexion</span></button>
             <button onClick={handleLogOut} className='ml-4 md:hidden'>
               <Icon icon="ic:baseline-logout" width={25} className='md:hidden text-white' />
