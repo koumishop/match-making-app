@@ -154,7 +154,7 @@ export default function Home() {
               </div>  
             </div>
             <div className='w-[80%] md:w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-24'>
-              <button type="submit" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Connectez-vous</button>  
+              <button type="submit" className='w-full border border-primary bg-primary text-white font-semibold p-3 hover:bg-opacity-50'>Connectez-vous</button>  
             </div>          
           </Form>
         </FormikProvider>
