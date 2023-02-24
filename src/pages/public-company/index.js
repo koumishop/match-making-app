@@ -135,9 +135,9 @@ export default function PublicDashboard() {
                                 <div className='w-full p-3 border border-primary flex items-centers'>
                                     <Icon icon="ic:baseline-work-outline" width={24} className='text-secondary' />
                                     <select required value={selectedCompanyId} onChange={handleChangeCompanyId} className='bg-white mx-2  w-full border-none focus:outline-none text-secondary'>
-                                        <option value="" disabled>Selectionnez l'Etreprise</option>
+                                        <option value="" disabled>Selectionnez l'Entreprise</option>
                                         {
-                                            isCompanyLoading? <option value=""> En cours de chargement ... </option> : companies.rows.map((row, idx)=>(<option value={row.id} key={idx}>{row.companyName}</option>))
+                                            isCompanyLoading? <option value=""> En cours de chargement ... </option> : !companies.rows? <option value="" disabled>Aucune entreprise trouvée</option> : companies.rows.map((row, idx)=>(<option value={row.id} key={idx}>{row.companyName}</option>))
                                         }
                                     </select>
                                 </div>            
