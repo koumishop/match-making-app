@@ -2,7 +2,6 @@ import moment from "moment";
 import { useState } from "react";
 
 export default function TimePicker({ defaultValue, onChange, name, beginLimit, endLimit, step, className, privateCompanyId}) {
-    const [appointmentUsedTime, setAppointmentUsedTime] = useState("");
 
     const getTimeStart =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes();
@@ -23,7 +22,7 @@ export default function TimePicker({ defaultValue, onChange, name, beginLimit, e
     var options = [];
     // options.push(<option key={timeValue} value={timeValue} >{timeValue}</option>);
     
-    defaultValue ? options.push(<option key={timeValue} value={timeValue} selected={defaultValue === timeValue}>{timeValue}</option>): privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
+    privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : defaultValue ? options.push(<option key={timeValue} value={timeValue} selected={defaultValue === timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
         options.push(<option key={timeValue} value={timeValue}  disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>);
     })
 
