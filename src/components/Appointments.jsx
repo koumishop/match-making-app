@@ -78,20 +78,19 @@ export default function Appointments({ appointment, user}) {
         return [year, month, day].join('-');
     }
     const getTimeStart =  (appointmentDate)=>{
-        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes();
-        //minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
+        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes();
+   
         return `${hour < 10 && hour > 0 ? `0${hour}` : hour}:${minutes < 10 && hour > 0 ? `0${minutes}` : minutes}`
     }
     const getTimeEnd =  (appointmentDate)=>{
-        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCMinutes()+20 === 60 ? dateTime.getUTCHours()+2 : dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes()+20 === 60 ? 0 : dateTime.getUTCMinutes()+20;
-        //minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
+        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCMinutes()+20 === 60 ? dateTime.getUTCHours()+1 : dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes()+20 === 60 ? 0 : dateTime.getUTCMinutes()+20;
+   
         return `${hour < 10 && hour > 0 ? `0${hour}` : hour}:${minutes < 10 && hour > 0 ? `0${minutes}` : minutes}`
     }
     const appointmentTimeStart = getTimeStart(appointment.appointmentTime);
     const appointmentTimeEnd = !appointmentTime? getTimeEnd(appointment.appointmentTime):parseInt(appointmentTime.split(':')[1])+20 === 60 ?`${parseInt(appointmentTime.split(':')[0])+1}:00` : `${appointmentTime.split(':')[0]}:${parseInt(appointmentTime.split(':')[1])+20}` ;
-    //appointment.appointmentTime
-    //console.log("***** data : ", privateCompanyData);
-  return (
+
+    return (
     <div className='w-full mb-4'>
         <div className={`${montserrat.className} font-medium w-full text-secondary flex`}>
             <div className='p-2 md:w-[25%] md:p-3 md:flex border border-primary'>
