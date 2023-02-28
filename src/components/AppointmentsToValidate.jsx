@@ -92,12 +92,12 @@ export default function Appointments({ appointment, token, getData, setIsDataLoa
     }
     
     const getTimeStart =  (appointmentDate)=>{
-        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes();
+        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes();
         // minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
         return `${hour < 10 && hour > 0 ? `0${hour}` : hour}:${minutes < 10 && hour > 0 ? `0${minutes}` : minutes}`
     }
     const getTimeEnd =  (appointmentDate)=>{
-        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCMinutes()+20 === 60 ? dateTime.getUTCHours()+2 : dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes()+20 === 60 ? 0 : dateTime.getUTCMinutes()+20;
+        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCMinutes()+20 === 60 ? dateTime.getUTCHours()+1 : dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes()+20 === 60 ? 0 : dateTime.getUTCMinutes()+20;
         return `${hour < 10 && hour > 0 ? `0${hour}` : hour}:${minutes < 10 && hour > 0 ? `0${minutes}` : minutes}`
     }
     const appointmentTimeStart = getTimeStart(appointment.appointmentTime);
