@@ -5,7 +5,7 @@ export default function TimePicker({ defaultValue, onChange, name, beginLimit, e
     const [appointmentUsedTime, setAppointmentUsedTime] = useState("");
 
     const getTimeStart =  (appointmentDate)=>{
-        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours()+1, minutes = dateTime.getUTCMinutes();
+        let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes();
         minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
         return `${hour}:${minutes}`
     }
