@@ -111,7 +111,7 @@ export default function RegisterCompanyForm() {
                     <h2 className='text-secondary text-lg font-medium'>Adresse</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
                         <Icon icon="ic:outline-place" width={24} className='text-secondary' />
-                        <input type="text" placeholder="ex: 25 av. de l’equateur c/ gombe" required value={companyAdress} onChange={handleChangeCompanyAdress} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
+                        <input type="text" placeholder="ex: avenue du fleuve congo, kinshasa" required value={companyAdress} onChange={handleChangeCompanyAdress} className='bg-white mx-2  w-4/5 border-none focus:outline-none text-secondary' />
                     </div>            
                 </div>
                 <div className='w-[95%] md:w-[59%] mb-4 flex flex-col justify-start space-y-2'>
