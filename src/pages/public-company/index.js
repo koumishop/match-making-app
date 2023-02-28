@@ -5,6 +5,9 @@ import { Oswald, Montserrat } from '@next/font/google'
 import { Icon } from '@iconify/react'
 import { useState, useEffect } from 'react'
 import TimePicker from '@/components/TimePicker';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
 import axios, { AxiosError, isAxiosError } from 'axios'
 import Appointments from '@/components/Appointments'
 
@@ -12,7 +15,6 @@ const oswald = Oswald({ subsets: ['latin'] });
 const montserrat = Montserrat({ subsets: ['latin'] });
 
 export default function PublicDashboard() {
-    const [hasSuccess, setHasSuccess] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [errorStatus, setErrorStatus] = useState("");
     const [appointmentTime, setAppointmentTime] = useState("");
@@ -24,7 +26,7 @@ export default function PublicDashboard() {
     const [isCompanyLoading, setIsCompanyLoading] = useState(true);
     const [isLoadingAppointment, setIsLoadingAppointment] = useState(true);
     const [appointmentData, setAppointmentData] = useState({});
-    const [isApointmentDataLoading, setIsApointmentDataLoading] = useState(true);
+    const [isAlertOpened, setIsAlertOpened] = useState(false);
 
     useEffect(() => {
         // Perform localStorage action
@@ -98,11 +100,10 @@ export default function PublicDashboard() {
 
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/`, appointment, { headers:{ 'x-access-token': `${localStorage.getItem('token')}` } })
         .then((response)=>{ 
-            setHasSuccess(true);
+            setIsAlertOpened(true);
             console.log(response);
             setAppointmentTime('');
             setSelectedCompanyId('');
-            setHasSuccess(false);
         })
         .catch((error)=>{ 
             setHasError(true);
@@ -127,9 +128,48 @@ export default function PublicDashboard() {
                                 <div className='text-primary text-5xl md:text-7xl font-bold'>Rendez-vous</div>
                             </h1>
                             <span className='text-secondary my-3'>Remplissez ce formulaire et nous vous enverrons une confirmation de rendez-vous</span>
-                            {
+
+                            <Collapse in={hasError}>
+                                <Alert severity='error'
+                                    action={
+                                        <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setHasError(false);
+                                        }}
+                                        >
+                                            <Icon icon="material-symbols:close" />
+                                        </IconButton>
+                                    }
+                                    sx={{ mb: 2 }}
+                                >
+                                    erreur : insertion d'informations erronées
+                                </Alert>
+                            </Collapse>
+                            <Collapse in={isAlertOpened}>
+                                <Alert
+                                    action={
+                                        <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setIsAlertOpened(false);
+                                        }}
+                                        >
+                                            <Icon icon="material-symbols:close" />
+                                        </IconButton>
+                                    }
+                                    sx={{ mb: 2 }}
+                                >
+                                    succès : le rendez-vous est pris, attendez sa confirmation
+                                </Alert>
+                            </Collapse>
+                            {/* {
                             hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : insertion d'informations erronées`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-primary bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
-                            }   
+                            }    */}
                             <div className={hasError ? 'w-[96%] md:w-[59%] my-4 md:mt-5 md:mb-5 flex flex-col justify-start space-y-2':'w-[96%] md:w-[59%] mt-1 mb-4 md:mb-5 flex flex-col justify-start space-y-2'}>
                                 <h2 className='text-secondary text-lg font-medium'>Entreprise du secteur à contacter</h2>
                                 <div className='w-full p-3 border border-primary flex items-centers'>

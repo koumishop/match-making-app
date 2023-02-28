@@ -69,7 +69,6 @@ export default function RegisterCompanyForm() {
             setRefName('');
             setRefEmail('');
             setRefPhone('');
-            setHasSuccess(false);
         })
         .catch((error)=>{ 
             setHasError(true);
@@ -86,9 +85,44 @@ export default function RegisterCompanyForm() {
     return(
         <div className='w-[100%] md:w-[60%] h-full md:mr-4'>
             <form className='w-[100%] h-[100%] mt-4 pt-4 pl-0 md:pl-24 bg-white flex flex-col items-start justify-start' autoComplete='off' >
-                {
-                hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : utilisateur ou mot de passe incorrect`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-primary bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
-                }
+               <Collapse in={hasError}>
+                    <Alert severity='error'
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setHasError(false);
+                            }}
+                            >
+                                <Icon icon="material-symbols:close" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                    >
+                        erreur : insertion d'informations erronées
+                    </Alert>
+                </Collapse>
+                <Collapse in={hasSuccess}>
+                    <Alert
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setHasSuccess(false);
+                            }}
+                            >
+                                <Icon icon="material-symbols:close" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                    >
+                        succès : l'entreprise a été enregistrée'
+                    </Alert>
+                </Collapse>
                 <div className={hasError ? 'w-[95%] md:w-[59%] my-4 md:mt-5 md:mb-4 flex flex-col justify-start space-y-2':'w-[95%] md:w-[59%] mt-1 mb-4 md:mb-5 flex flex-col justify-start space-y-2'}>
                     <h2 className='text-secondary text-lg font-medium'>Type Entreprise</h2>
                     <div className='w-full p-3 border border-primary flex items-centers'>
