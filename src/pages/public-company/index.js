@@ -60,7 +60,6 @@ export default function PublicDashboard() {
     const getTimeData = async (privateCompanyId)=>{
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/appointments/${privateCompanyId}`, { headers: { 'x-access-token': `${localStorage.getItem('token')}` } })
-            console.log('**** response timer: ', response.data)
             return response.data
         } catch (error) {
             console.log('**** error: ', error)
@@ -86,7 +85,6 @@ export default function PublicDashboard() {
     const handleChangeCompanyId = async (event)=>{
         setSelectedCompanyId(event.target.value);        
         const appointmentValue = await getTimeData(event.target.value);
-        console.log("***** appointment : ", appointmentValue);
         setAppointmentData(appointmentValue);
     }
 

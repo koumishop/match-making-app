@@ -5,7 +5,7 @@ export default function TimePicker({ defaultValue, onChange, name, beginLimit, e
 
     const getTimeStart =  (appointmentDate)=>{
         let dateTime= new Date(appointmentDate), hour = dateTime.getUTCHours(), minutes = dateTime.getUTCMinutes();
-        minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
         return `${hour}:${minutes}`
     }
 
@@ -20,26 +20,38 @@ export default function TimePicker({ defaultValue, onChange, name, beginLimit, e
     var setStep = step || 20;
 
     var options = [];
-    // options.push(<option key={timeValue} value={timeValue} >{timeValue}</option>);
-    
-    privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : defaultValue ? options.push(<option key={timeValue} value={timeValue} selected={defaultValue === timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
-        options.push(<option key={timeValue} value={timeValue}  disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>);
-    })
+    if(defaultValue){
+        options.push(<option key={timeValue} value={timeValue} selected={defaultValue === timeValue}>{timeValue}</option>)
+    }else{
+        if(privateCompanyId?.rows){
+            privateCompanyId?.rows.forEach((row)=>{ 
+                options.push(<option key={timeValue} value={timeValue}  disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>);
+            });                    
+        }else{
+            options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>)
+        }
+    }
+
 
     while ( isEarlierThanEndLimit(timeValue, setEndLimit, lastValue) ) {
          lastValue = timeValue;
          timeValue = moment(timeValue, 'HH:mm').add(setStep, 'minutes').format('HH:mm');
-        //  options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>)
-
-        privateCompanyId?.rows === undefined ? options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>) : privateCompanyId?.rows.forEach((row)=>{
-            options.push(<option key={timeValue} value={timeValue} disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>)
-        })
-
+        if(defaultValue){
+            options.push(<option key={timeValue} value={timeValue} selected={defaultValue === timeValue}>{timeValue}</option>)
+        }else{
+            if(privateCompanyId?.rows){
+                privateCompanyId?.rows.forEach((row)=>{ 
+                    options.push(<option key={timeValue} value={timeValue}  disabled={timeValue === getTimeStart(row.appointmentTime)}>{timeValue}</option>);
+                });                    
+            }else{
+                options.push(<option key={timeValue} value={timeValue}>{timeValue}</option>)
+            }
+        }
     }
 
 
     return(
-        <select defaultValue={defaultValue} onChange={onChange} name={name} className={className}>
+        <select defaultValue={defaultValue?defaultValue:beginLimit} onChange={onChange} name={name} className={className}>
             {options}
         </select>
     )
