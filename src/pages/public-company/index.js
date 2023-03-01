@@ -191,7 +191,7 @@ export default function PublicDashboard() {
                                 </div>  
                             </div>
                             <div className='w-[96%] md:w-[59%] border border-primary flex flex-col justify-start space-y-2 mb-12 md:mb-24'>
-                                <button onClick={handleSubmit} type="button" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50'>Validez le rendez-vous</button>  
+                                <button onClick={handleSubmit} type="button" className='w-full border border-primary bg-primary font-semibold p-3 hover:bg-opacity-50 text-white'>Validez le rendez-vous</button>  
                             </div>                                                
                         </form>
                 </div>
