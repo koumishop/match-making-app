@@ -27,6 +27,8 @@ export default function PublicDashboard() {
     const [isLoadingAppointment, setIsLoadingAppointment] = useState(true);
     const [appointmentData, setAppointmentData] = useState({});
     const [isAlertOpened, setIsAlertOpened] = useState(false);
+    const [message, setMessage] = useState("");
+
 
     useEffect(() => {
         // Perform localStorage action
@@ -104,10 +106,12 @@ export default function PublicDashboard() {
             console.log(response);
             setAppointmentTime('');
             setSelectedCompanyId('');
+            setMessage("succès : le rendez-vous est pris, attendez sa confirmation")
         })
         .catch((error)=>{ 
             setHasError(true);
             console.log('error : ', error);
+            setMessage("erreur : soit vous avez déjà pris ce rendez-vous, soit c'est une insertion d'informations erronées");
 
             if(error.response.status){
                 setErrorStatus(error.response.status);
@@ -145,7 +149,7 @@ export default function PublicDashboard() {
                                     }
                                     sx={{ mb: 2 }}
                                 >
-                                    erreur : insertion d'informations erronées
+                                    { message }
                                 </Alert>
                             </Collapse>
                             <Collapse in={isAlertOpened}>
@@ -164,12 +168,10 @@ export default function PublicDashboard() {
                                     }
                                     sx={{ mb: 2 }}
                                 >
-                                    succès : le rendez-vous est pris, attendez sa confirmation
+                                    { message }
                                 </Alert>
                             </Collapse>
-                            {/* {
-                            hasError? <span className='w-full p-2 mt-4 bg-error bg-opacity-80 text-white flex justify-center'><Icon icon="material-symbols:warning-outline-rounded" width={24} className='text-white mr-2' />{errorStatus ? `erreur : insertion d'informations erronées`:`erreur : ${errorStatus}`}</span> : hasSuccess? <span className='w-full p-2 mt-4 bg-primary bg-opacity-80 text-white flex justify-center'><Icon icon="mdi:success-circle-outline" width={24} className='text-white mr-2' />{`succès : le rendez-vous est pris, attendez sa confirmation`}</span> : <></>
-                            }    */}
+
                             <div className={hasError ? 'w-[96%] md:w-[59%] my-4 md:mt-5 md:mb-5 flex flex-col justify-start space-y-2':'w-[96%] md:w-[59%] mt-1 mb-4 md:mb-5 flex flex-col justify-start space-y-2'}>
                                 <h2 className='text-secondary text-lg font-medium'>Entreprise du secteur à contacter</h2>
                                 <div className='w-full p-3 border border-primary flex items-centers'>
