@@ -132,7 +132,7 @@ export default function Home() {
         <FormikProvider value={formik}>
           <Form className='w-[100%] md:w-1/2 h-[100%] mt-4 p-4 bg-white flex flex-col items-center' autoComplete='off' onSubmit={formik.handleSubmit}>
             <h1 className={oswald.className}>
-              <div className='text-secondary text-5xl md:text-7xl font-bold'>Bienvenu sur</div>
+              <div className='text-secondary text-5xl md:text-7xl font-bold'>Bienvenue sur</div>
               <div className='text-primary text-5xl md:text-7xl font-bold'>Match-Making</div>
             </h1>
             {
